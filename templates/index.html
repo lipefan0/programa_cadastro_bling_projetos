@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Importar Contatos</title>
+    <style>
+      .hidden {
+        display: none;
+      }
+    </style>
+  </head>
+  <body class="bg-indigo-950 flex items-center justify-center min-h-screen">
+    <div
+      id="form-container"
+      class="flex flex-col bg-indigo-950 p-6 max-w-2xl mx-auto items-center justify-center"
+    >
+      <h1 class="text-5xl text-slate-200 font-bold">Importar Contatos</h1>
+
+      <form
+        id="import-form"
+        class="flex flex-col max-w-96"
+        action="{{ url_for('index') }}"
+        method="post"
+        enctype="multipart/form-data"
+        onsubmit="showLoading();
+        return false;"
+      >
+        <label class="text-slate-200 mt-6" for="token">Token:</label>
+        <input class="p-2 mt-2 rounded-md" type="text" name="token" required />
+        <label class="text-slate-200 mt-6" for="file">Arquivo:</label>
+        <input
+          class="text-slate-200 file:cursor-pointer file:bg-green-500 file:text-slate-100 file:rounded-md file:p-4 file:mt-2 file:border-none"
+          type="file"
+          name="file"
+          accept=".xlsx"
+          required
+        />
+        <button
+          class="p-4 bg-slate-100 text-slate-900 rounded-md hover:bg-slate-300 mt-6"
+          type="submit"
+        >
+          Importar
+        </button>
+      </form>
+    </div>
+
+    <!-- Página de loading -->
+    <div
+      id="loading-container"
+      class="hidden flex flex-col bg-indigo-950 p-6 max-w-2xl mx-auto items-center justify-center"
+    >
+      <h1 class="text-4xl text-slate-200 mb-4">Carregando...</h1>
+      <div
+        class="loader border-t-4 border-b-4 border-green-500 w-16 h-16 rounded-full animate-spin"
+      ></div>
+    </div>
+
+    <script>
+      function showLoading() {
+        // Esconde o formulário e mostra a tela de loading
+        document.getElementById("form-container").classList.add("hidden");
+        document.getElementById("loading-container").classList.remove("hidden");
+
+        // Submete o formulário depois de mostrar a página de loading
+        document.getElementById("import-form").submit();
+      }
+    </script>
+  </body>
+</html>

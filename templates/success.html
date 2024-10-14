@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <title>Importação Bem-Sucedida</title>
+  </head>
+  <body class="bg-indigo-950 flex items-center justify-center min-h-screen">
+    <div
+      class="flex flex-col bg-indigo-950 p-6 max-w-2xl mx-auto items-center justify-center"
+    >
+      <h1 class="text-5xl text-slate-200 font-bold mb-6">
+        Importação Bem-Sucedida!
+      </h1>
+      <p class="text-slate-100 text-lg">
+        <span class="underline font-semibold text-slate-50"
+          >{{ count }} contatos</span
+        >
+        foram importados com sucesso.
+      </p>
+      <a
+        class="p-4 bg-slate-200 hover:bg-white text-slate-900 mt-6 rounded-md"
+        href="{{ url_for('index') }}"
+        >Voltar para a página inicial</a
+      >
+    </div>
+  </body>
+</html>
