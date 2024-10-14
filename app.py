@@ -1,6 +1,7 @@
 from flask import Flask, request, render_template, redirect, url_for, flash
 import pandas as pd
 import requests
+import os
 
 app = Flask(__name__)  # Atualizando o caminho do template
 
@@ -129,4 +130,5 @@ def success():
 
 
 if __name__ == '__main__':
-    app.run(debug=True, port=5001)
+    port = int(os.environ.get('PORT', 5000))  # Use a porta fornecida pelo Render
+    app.run(host='0.0.0.0', port=port)
