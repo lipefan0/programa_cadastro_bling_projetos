@@ -12,12 +12,11 @@ class CriarContatos:
     def criar_payload_em_lotes(self, tipos_contato, df, tamanho_lote=10):
         tipo_contato_dict = {tipo['descricao']: tipo['id'] for tipo in tipos_contato}
         contador = 0
-        total_contatos = len(df)  # Número total de contatos
+        total_contatos = len(df)
 
-        # Processar em lotes
         for inicio in range(0, total_contatos, tamanho_lote):
             fim = min(inicio + tamanho_lote, total_contatos)
-            lote = df.iloc[inicio:fim]  # Seleciona um lote do DataFrame
+            lote = df.iloc[inicio:fim]
 
             for index, row in lote.iterrows():
                 tipo_descricao = row['tipoContato'] or ""
@@ -71,11 +70,10 @@ class CriarContatos:
                     ]
                 }
 
-                # Enviar os dados do contato à API
                 self.post_contatos(data)
-                contador += 1  # Contagem dos contatos processados
+                contador += 1
 
-        return contador  # Retorna o número total de contatos importados
+        return contador
 
     def check_value(self, value):
         return "" if pd.isna(value) else value
@@ -93,6 +91,7 @@ class CriarContatos:
         return response.json().get('data', [])
 
 
+# Rota da aplicação
 @app.route('/', methods=['GET', 'POST'])
 def index():
     if request.method == 'POST':
@@ -101,11 +100,14 @@ def index():
         df = pd.read_excel(file)
         contatos = CriarContatos(token)
         tipos_contato = contatos.get_tipo_contato()
-        quantidade_importada = contatos.criar_payload(tipos_contato, df)
 
-        return redirect(url_for('success', count=quantidade_importada))  # Redireciona para a página de sucesso
+        # Chamando o método correto
+        quantidade_importada = contatos.criar_payload_em_lotes(tipos_contato, df)
+
+        return redirect(url_for('success', count=quantidade_importada))
 
     return render_template('index.html')
+
 
 @app.route('/loading', methods=['POST'])
 def loading():
